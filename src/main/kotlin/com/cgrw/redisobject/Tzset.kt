@@ -2,12 +2,14 @@ package com.cgrw.redisobject
 
 import com.cgrw.structure.ZskipListNode
 import com.cgrw.structure.Zskiplist
+import kotlin.random.Random.Default.nextDouble
 
 /**
  * @Author: cgrw
  * @Url: https://github.com/cgIIrw/kodis
  */
 const val ZSKIPLIST_MAXLEVEL = 32
+const val ZSKIPLIST_P = 0.25
 
 
 // 创建并返回单个跳跃表节点
@@ -38,6 +40,15 @@ fun zslCreate(): Zskiplist {
     zsl.header.backward = null
     zsl.tail = null
     return zsl
+}
+
+// 幂次定律，在这里level的值每增加一个，概率是四分之一
+fun zslRandomLevel(): Int {
+    var level = 1
+
+    while ((nextDouble(1.0)) < ZSKIPLIST_P)
+        level += 1
+    return if (level < ZSKIPLIST_MAXLEVEL) level else ZSKIPLIST_MAXLEVEL
 }
 
 
